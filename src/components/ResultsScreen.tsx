@@ -34,7 +34,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ result, onClose })
             
             <div className="bg-slate-50 p-6 border border-slate-200 flex flex-col items-center">
               <div className="text-slate-400 mb-3 font-mono font-bold text-lg">Q</div>
-              <div className="text-3xl font-light text-slate-800 mb-1">{result.totalQuestions}</div>
+              <div className="text-3xl font-light text-slate-800 mb-1">{result.attemptedQuestions ?? result.totalQuestions} / {result.totalQuestions}</div>
               <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Attempted</div>
             </div>
             

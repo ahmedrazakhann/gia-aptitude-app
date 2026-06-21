@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { ModuleType, TestResult } from '../lib/types';
-import { getResults, getTheme, setTheme as saveThemeToStorage } from '../lib/storage';
+import { getResults, getTheme, setTheme as saveThemeToStorage, clearResults } from '../lib/storage';
 import { Card, CardBody, CardHeader } from './ui/Card';
 import { Button } from './ui/Button';
 
@@ -73,6 +73,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
   const overallAcc = totalTests > 0 
     ? results.reduce((acc, r) => acc + r.accuracy, 0) / totalTests 
     : 0;
+
+  const handleClearHistory = () => {
+    if (window.confirm('Are you sure you want to clear all test history?')) {
+      clearResults();
+      setResults([]);
+    }
+  };
 
   return (
     <div className="max-w-6xl mx-auto w-full pb-12">
@@ -190,7 +197,12 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
 
       {results.length > 0 && (
         <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">Test History</h2>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">Test History</h2>
+            <Button variant="danger" onClick={handleClearHistory} className="text-sm px-3 py-1">
+              Clear History
+            </Button>
+          </div>
           <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow border border-gray-100 dark:border-gray-700">
             <table className="min-w-full text-left text-sm">
               <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-100 dark:border-gray-700 text-gray-500 uppercase tracking-wider font-medium">

@@ -33,26 +33,29 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ module, durationSeconds,
   }, [module]);
 
   useEffect(() => {
+    if (timeLeft <= 0) {
+      finishTest();
+      return;
+    }
+
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          finishTest();
-          return 0;
-        }
-        return prev - 1;
-      });
+      setTimeLeft((prev) => prev - 1);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [answers]); // Added answers to dependency array just to safely capture latest state in finishTest, but we should use a ref for answers to be safe.
+  }, [timeLeft]);
 
   const answersRef = useRef(answers);
   useEffect(() => {
     answersRef.current = answers;
   }, [answers]);
 
+  const isFinishedRef = useRef(false);
+
   const finishTest = () => {
+    if (isFinishedRef.current) return;
+    isFinishedRef.current = true;
+
     const finalAnswers = answersRef.current;
     let correct = 0;
     const wrongAnswers: TestResult['wrongAnswers'] = [];

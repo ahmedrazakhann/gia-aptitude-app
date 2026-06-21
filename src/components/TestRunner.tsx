@@ -103,22 +103,15 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
     const timeTaken = Date.now() - questionStartTime;
     const currentQuestion = questions[currentIndex];
     
-    // Accumulate time if they revisit, or just override. Let's just override for simplicity.
     setUserAnswers(prev => ({
       ...prev,
       [currentQuestion.id]: { answer, timeTaken }
     }));
-  };
 
-  const handleNext = () => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(prev => prev + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(prev => prev - 1);
+    } else {
+      finishTest();
     }
   };
 
@@ -157,9 +150,9 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
       </header>
 
       {/* Progress Bar */}
-      <div className="w-full bg-gray-100 h-1.5">
+      <div className="w-full bg-slate-100 h-1.5">
         <div 
-          className="bg-blue-600 h-1.5 transition-all duration-300 ease-in-out" 
+          className="bg-slate-800 h-1.5 transition-all duration-300 ease-in-out" 
           style={{ width: `${progressPercentage}%` }}
         />
       </div>
@@ -168,8 +161,8 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
       <main className="flex-grow flex flex-col items-center py-10 px-4">
         <div className="w-full max-w-4xl flex-grow flex flex-col">
           
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-10 mb-8 flex-grow flex flex-col justify-center min-h-[400px]">
-            <div className="text-2xl font-medium mb-12 text-center whitespace-pre-wrap text-gray-800 leading-relaxed">
+          <div className="bg-white rounded-none border border-slate-200 p-10 mb-8 flex-grow flex flex-col justify-center min-h-[400px]">
+            <div className="text-2xl font-medium mb-12 text-center whitespace-pre-wrap text-slate-800 leading-relaxed">
               {typeof currentQuestion.prompt === 'string' && currentQuestion.prompt.includes('<') ? (
                  <div dangerouslySetInnerHTML={{__html: currentQuestion.prompt}} />
               ) : currentQuestion.prompt}
@@ -177,50 +170,17 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
               {currentQuestion.options.map((opt, i) => {
-                const isSelected = currentAnswer === opt;
                 return (
                   <button 
                     key={i} 
                     onClick={() => handleSelectAnswer(opt)}
-                    className={`py-6 px-4 text-lg rounded-lg border-2 transition-all duration-200 outline-none
-                      ${isSelected 
-                        ? 'border-blue-600 bg-blue-50 text-blue-800 shadow-md font-semibold' 
-                        : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50/50'
-                      }`}
+                    className="py-6 px-4 text-lg rounded-none border-2 transition-all duration-200 outline-none border-slate-200 bg-white text-slate-700 hover:border-slate-800 hover:bg-slate-50 hover:text-slate-900 focus:border-slate-800 focus:bg-slate-50"
                   >
                     {opt}
                   </button>
                 );
               })}
             </div>
-          </div>
-          
-          {/* Navigation Controls */}
-          <div className="flex justify-between items-center mt-auto pt-6 border-t border-gray-100">
-            <Button 
-              variant="secondary" 
-              onClick={handlePrevious} 
-              disabled={currentIndex === 0}
-              className={`px-8 py-3 text-lg ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              &larr; Previous
-            </Button>
-
-            {currentIndex < questions.length - 1 ? (
-              <Button 
-                onClick={handleNext} 
-                className="px-8 py-3 text-lg bg-blue-600 hover:bg-blue-700 text-white"
-              >
-                Next &rarr;
-              </Button>
-            ) : (
-              <Button 
-                onClick={finishTest} 
-                className="px-8 py-3 text-lg bg-green-600 hover:bg-green-700 text-white font-bold"
-              >
-                Submit Assessment
-              </Button>
-            )}
           </div>
 
         </div>

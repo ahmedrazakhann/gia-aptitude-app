@@ -1,3 +1,4 @@
+import { Question } from '../lib/types';
 import { questions as test1Questions } from './aptitude-test-1/questions';
 import { metadata as test1Metadata } from './aptitude-test-1/metadata';
 
@@ -13,7 +14,7 @@ import { metadata as apt2PercMetadata } from './apt2-perceptual/metadata';
 import { questions as apt2WordQuestions } from './apt2-word/questions';
 import { metadata as apt2WordMetadata } from './apt2-word/metadata';
 
-export const TESTS_DATA: Record<string, { questions: any[], metadata: any }> = {
+export const TESTS_DATA: Record<string, { questions: Question[], metadata: any }> = {
   'aptitude-test-1': { questions: test1Questions, metadata: test1Metadata },
   'apt2-number': { questions: apt2NumQuestions, metadata: apt2NumMetadata },
   'apt2-reasoning': { questions: apt2ReaQuestions, metadata: apt2ReaMetadata },

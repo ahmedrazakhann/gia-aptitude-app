@@ -15,6 +15,7 @@ export interface TestResult {
   testId?: string;
   module: ModuleType;
   totalQuestions: number;
+  attemptedQuestions?: number;
   correctAnswers: number;
   accuracy: number; // percentage 0-100
   averageResponseTime: number; // in milliseconds

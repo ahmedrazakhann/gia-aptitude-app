@@ -98,6 +98,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
                 <th className="px-6 py-4">Date</th>
                 <th className="px-6 py-4">Assessment</th>
                 <th className="px-6 py-4">Score</th>
+                <th className="px-6 py-4">Attempted</th>
                 <th className="px-6 py-4">Accuracy</th>
                 <th className="px-6 py-4">Avg Time</th>
                 <th className="px-6 py-4">Total Time</th>
@@ -114,11 +115,14 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
                   ? `${Math.floor(totalSec / 60)}m ${Math.round(totalSec % 60)}s`
                   : `${totalSec.toFixed(1)}s`;
 
+                const attempted = r.attemptedQuestions ?? (r.correctAnswers + r.wrongAnswers.length);
+
                 return (
                   <tr key={r.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4 text-slate-500">{new Date(r.timestamp).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</td>
                     <td className="px-6 py-4 font-medium text-slate-700">{testName}</td>
                     <td className="px-6 py-4 font-semibold text-slate-800">{getScore(r)}</td>
+                    <td className="px-6 py-4 text-slate-600">{attempted} / {r.totalQuestions}</td>
                     <td className="px-6 py-4 text-slate-600">{r.accuracy.toFixed(1)}%</td>
                     <td className="px-6 py-4 text-slate-500">{(r.averageResponseTime / 1000).toFixed(1)}s</td>
                     <td className="px-6 py-4 text-slate-500 font-medium">{formattedTime}</td>

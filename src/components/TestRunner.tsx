@@ -49,18 +49,20 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
     userAnswersRef.current = userAnswers;
   }, [userAnswers]);
 
-  const finishTest = () => {
+  const finishTest = (overrideAnswers?: Record<string, { answer: string; timeTaken: number }>) => {
     if (isFinishedRef.current) return;
     isFinishedRef.current = true;
 
-    const finalAnswers = userAnswersRef.current;
+    const finalAnswers = overrideAnswers || userAnswersRef.current;
     let correct = 0;
     const wrongAnswers: TestResult['wrongAnswers'] = [];
     let totalTime = 0;
+    let attempted = 0;
 
     questions.forEach(q => {
       const ans = finalAnswers[q.id];
       if (ans) {
+        attempted++;
         totalTime += ans.timeTaken;
         if (ans.answer === q.correctAnswer) {
           correct++;
@@ -90,9 +92,10 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
       module: 'mixed', // Legacy compat
       testId,
       totalQuestions: total,
+      attemptedQuestions: attempted,
       correctAnswers: correct,
       accuracy: total > 0 ? (correct / total) * 100 : 0,
-      averageResponseTime: total > 0 ? totalTime / total : 0,
+      averageResponseTime: attempted > 0 ? totalTime / attempted : 0,
       totalTimeTaken: totalTime,
       wrongAnswers
     };
@@ -104,16 +107,20 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
     const timeTaken = Date.now() - questionStartTime;
     const currentQuestion = questions[currentIndex];
     
-    setUserAnswers(prev => ({
-      ...prev,
-      [currentQuestion.id]: { answer, timeTaken }
-    }));
+    setUserAnswers(prev => {
+      const nextAnswers = {
+        ...prev,
+        [currentQuestion.id]: { answer, timeTaken }
+      };
 
-    if (currentIndex < questions.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-    } else {
-      finishTest();
-    }
+      if (currentIndex < questions.length - 1) {
+        setCurrentIndex(i => i + 1);
+      } else {
+        finishTest(nextAnswers);
+      }
+      
+      return nextAnswers;
+    });
   };
 
   const currentQuestion = questions[currentIndex];

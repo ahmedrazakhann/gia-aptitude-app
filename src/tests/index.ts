@@ -14,10 +14,14 @@ import { metadata as apt2PercMetadata } from './apt2-perceptual/metadata';
 import { questions as apt2WordQuestions } from './apt2-word/questions';
 import { metadata as apt2WordMetadata } from './apt2-word/metadata';
 
+import { questions as apt2SpatialQuestions } from './apt2-spatial/questions';
+import { metadata as apt2SpatialMetadata } from './apt2-spatial/metadata';
+
 export const TESTS_DATA: Record<string, { questions: Question[], metadata: any }> = {
   'aptitude-test-1': { questions: test1Questions, metadata: test1Metadata },
   'apt2-number': { questions: apt2NumQuestions, metadata: apt2NumMetadata },
   'apt2-reasoning': { questions: apt2ReaQuestions, metadata: apt2ReaMetadata },
   'apt2-perceptual': { questions: apt2PercQuestions, metadata: apt2PercMetadata },
   'apt2-word': { questions: apt2WordQuestions, metadata: apt2WordMetadata },
+  'apt2-spatial': { questions: apt2SpatialQuestions, metadata: apt2SpatialMetadata },
 };

@@ -42,7 +42,8 @@ const TEST_GROUPS: TestGroup[] = [
       { id: 'apt2-number', name: 'Number Speed', desc: 'Target: 30 items in 3 minutes. Pick number furthest from middle.', durationSeconds: 180 },
       { id: 'apt2-reasoning', name: 'Reasoning', desc: 'Target: 20 items in 2 minutes. Convert statement to ordering.', durationSeconds: 120 },
       { id: 'apt2-perceptual', name: 'Perceptual Speed', desc: 'Target: 15 items in 75 seconds. Count identical pairs.', durationSeconds: 75 },
-      { id: 'apt2-word', name: 'Word Meaning', desc: 'Target: 15 items in 75 seconds. Pick odd word out.', durationSeconds: 75 }
+      { id: 'apt2-word', name: 'Word Meaning', desc: 'Target: 15 items in 75 seconds. Pick odd word out.', durationSeconds: 75 },
+      { id: 'apt2-spatial', name: 'Spatial Visualisation', desc: 'Target: 15 items in 75 seconds. Match rotated shapes.', durationSeconds: 75 }
     ]
   }
 ];

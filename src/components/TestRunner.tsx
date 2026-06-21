@@ -107,20 +107,18 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
     const timeTaken = Date.now() - questionStartTime;
     const currentQuestion = questions[currentIndex];
     
-    setUserAnswers(prev => {
-      const nextAnswers = {
-        ...prev,
-        [currentQuestion.id]: { answer, timeTaken }
-      };
+    const newAnswers = {
+      ...userAnswers,
+      [currentQuestion.id]: { answer, timeTaken }
+    };
+    
+    setUserAnswers(newAnswers);
 
-      if (currentIndex < questions.length - 1) {
-        setCurrentIndex(i => i + 1);
-      } else {
-        finishTest(nextAnswers);
-      }
-      
-      return nextAnswers;
-    });
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      finishTest(newAnswers);
+    }
   };
 
   const currentQuestion = questions[currentIndex];

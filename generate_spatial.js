@@ -13,7 +13,7 @@ function getRandomShape() {
   return { html, isMirrored };
 }
 
-for (let i = 0; i < 15; i++) {
+for (let i = 0; i < 40; i++) {
   // Box 1
   const b1s1 = getRandomShape();
   const b1s2 = getRandomShape();

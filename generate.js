@@ -1,191 +1,107 @@
 const fs = require('fs');
 const path = require('path');
 
-const drillA = `
-1, 6, 10
-3, 7, 1
-2, 9, 5
-4, 12, 7
-8, 1, 5
-15, 8, 11
-2, 9, 7
-14, 3, 8
-5, 13, 11
-18, 4, 9
-6, 17, 11
-3, 10, 8
-22, 9, 14
-7, 16, 13
-8, 19, 12
-4, 11, 9
-25, 10, 13
-2, 16, 7
-12, 3, 6
-9, 22, 15
-5, 14, 12
-7, 2, 16
-11, 24, 18
-6, 18, 11
-3, 8, 6
-23, 8, 12
-5, 20, 9
-10, 1, 4
-7, 13, 11
-4, 17, 8
-`.trim().split('\n');
-
-const ansA = `
-1
-7
-9
-12
-1
-15
-2
-14
-5
-18
-17
-3
-22
-7
-19
-4
-25
-16
-12
-22
-5
-16
-11
-18
-3
-23
-20
-10
-7
-17
-`.trim().split('\n');
-
-const questionsA = drillA.map((line, i) => {
-  const nums = line.split(', ').map(Number);
-  return {
+// 1. NUMBER SPEED
+// Logic: 3 numbers. Find the middle value, then find the one furthest from it.
+const questionsA = [];
+for (let i = 0; i < 50; i++) {
+  let n1, n2, n3;
+  while (true) {
+    n1 = Math.floor(Math.random() * 30) + 1;
+    n2 = Math.floor(Math.random() * 30) + 1;
+    n3 = Math.floor(Math.random() * 30) + 1;
+    if (n1 === n2 || n2 === n3 || n1 === n3) continue;
+    
+    let sorted = [n1, n2, n3].sort((a, b) => a - b);
+    let mid = sorted[1];
+    let dist1 = Math.abs(sorted[0] - mid);
+    let dist2 = Math.abs(sorted[2] - mid);
+    if (dist1 !== dist2) break; // Must be exactly one furthest
+  }
+  
+  let sorted = [n1, n2, n3].sort((a, b) => a - b);
+  let mid = sorted[1];
+  let furthest = Math.abs(sorted[0] - mid) > Math.abs(sorted[2] - mid) ? sorted[0] : sorted[2];
+  
+  questionsA.push({
     id: 'apt2-num-' + i,
     module: 'number',
-    prompt: `Which number is furthest in value from the remaining (middle) number?\n<div class="text-2xl font-semibold mt-4">${line.split(', ').join(' &nbsp;&nbsp;&nbsp; ')}</div>`,
-    options: nums.map(String).sort(() => Math.random() - 0.5),
-    correctAnswer: ansA[i],
-    metadata: { promptStr: line }
-  };
-});
-
-const drillB = `
-Paul is taller than Roy. Who is shorter?
-Cecilia is not as clever as Rose. Who is cleverer?
-Mark runs faster than Liam. Who is slower?
-Sara is heavier than Nina. Who is lighter?
-Tom is not as strong as Jack. Who is stronger?
-Amy is older than Beth. Who is younger?
-Dan is shorter than Sam. Who is taller?
-Lily is less experienced than Kate. Who is more experienced?
-Ben is quicker than Joe. Who is slower?
-Rita is not as tall as Mona. Who is taller?
-Carl is richer than Dave. Who is poorer?
-Eve is weaker than Fay. Who is stronger?
-Noah is not as old as Liam. Who is younger?
-Zoe is faster than Ria. Who is slower?
-Sam is heavier than Tim but lighter than Max. Who is the heaviest?
-Anna is taller than Bea, who is taller than Cara. Who is the shortest?
-Jon is not as quick as Kim, and Kim is not as quick as Leo. Who is the quickest?
-Mia is older than Nia. Nia is older than Ola. Who is the youngest?
-Pete is stronger than Quin but weaker than Rob. Who is the weakest?
-Tess is less tall than Uma. Uma is less tall than Vera. Who is the tallest?
-`.trim().split('\n');
-
-const ansB = `
-Roy
-Rose
-Liam
-Nina
-Jack
-Beth
-Sam
-Kate
-Joe
-Mona
-Dave
-Fay
-Noah
-Ria
-Max
-Cara
-Leo
-Ola
-Quin
-Vera
-`.trim().split('\n');
-
-const questionsB = drillB.map((line, i) => {
-  const words = line.split(' ');
-  const names = new Set();
-  words.forEach(w => {
-    const clean = w.replace(/[^a-zA-Z]/g, '');
-    if (clean && clean[0] === clean[0].toUpperCase() && clean.length > 1 && clean !== 'Who') {
-      names.add(clean);
-    }
+    prompt: `Which number is furthest in value from the remaining (middle) number?\n<div class="text-2xl font-semibold mt-4">${n1} &nbsp;&nbsp;&nbsp; ${n2} &nbsp;&nbsp;&nbsp; ${n3}</div>`,
+    options: [String(n1), String(n2), String(n3)].sort(() => Math.random() - 0.5),
+    correctAnswer: String(furthest),
+    metadata: { promptStr: `${n1}, ${n2}, ${n3}` }
   });
-  let options = Array.from(names);
-  if (options.length < 2) options = [ansB[i], "Other"];
-  return {
+}
+
+// 2. REASONING
+const names = ['Paul', 'Roy', 'Mark', 'Liam', 'Sara', 'Nina', 'Tom', 'Jack', 'Amy', 'Beth', 'Dan', 'Sam', 'Lily', 'Kate', 'Ben', 'Joe', 'Rita', 'Mona', 'Carl', 'Dave', 'Eve', 'Fay', 'Noah', 'Zoe', 'Ria'];
+const adjs = [
+  { p: 'taller', op: 'shorter' },
+  { p: 'faster', op: 'slower' },
+  { p: 'heavier', op: 'lighter' },
+  { p: 'stronger', op: 'weaker' },
+  { p: 'older', op: 'younger' },
+  { p: 'richer', op: 'poorer' }
+];
+const questionsB = [];
+for (let i = 0; i < 40; i++) {
+  const n1 = names[Math.floor(Math.random() * names.length)];
+  let n2;
+  while (true) {
+    n2 = names[Math.floor(Math.random() * names.length)];
+    if (n1 !== n2) break;
+  }
+  
+  const adj = adjs[Math.floor(Math.random() * adjs.length)];
+  const type = Math.floor(Math.random() * 3);
+  let promptStr = '';
+  let ans = '';
+  
+  if (type === 0) {
+    promptStr = `${n1} is ${adj.p} than ${n2}. Who is ${adj.op}?`;
+    ans = n2;
+  } else if (type === 1) {
+    promptStr = `${n1} is not as ${adj.p.replace('er', '')} as ${n2}. Who is ${adj.p}?`;
+    ans = n2;
+  } else {
+    promptStr = `${n1} is ${adj.op} than ${n2}. Who is ${adj.p}?`;
+    ans = n2;
+  }
+
+  questionsB.push({
     id: 'apt2-rea-' + i,
     module: 'reasoning',
-    prompt: line,
-    options: options.sort(() => Math.random() - 0.5),
-    correctAnswer: ansB[i],
-    metadata: { promptStr: line }
-  };
-});
+    prompt: promptStr,
+    options: [n1, n2].sort(() => Math.random() - 0.5),
+    correctAnswer: ans,
+    metadata: { promptStr }
+  });
+}
 
-const drillC = `
-(E,e) (Q,y) (D,d) (K,k)
-(f,F) (d,D) (m,R) (h,H)
-(B,b) (c,C) (p,P) (n,N)
-(G,q) (t,T) (s,z) (w,w)
-(a,A) (b,d) (c,C) (x,y)
-(L,l) (M,n) (o,O) (p,q)
-(R,r) (s,S) (t,T) (u,U)
-(v,w) (x,X) (y,z) (a,b)
-(C,c) (D,e) (F,f) (G,h)
-(k,K) (l,i) (m,M) (n,N)
-(P,q) (R,s) (T,u) (V,w)
-(a,A) (e,E) (i,I) (o,O)
-(B,d) (C,c) (E,f) (G,g)
-(h,H) (j,k) (l,L) (m,n)
-(Q,o) (R,r) (S,s) (T,t)
-`.trim().split('\n');
-
-const ansC = `
-3
-3
-4
-2
-2
-2
-4
-1
-2
-3
-0
-4
-2
-2
-3
-`.trim().split('\n');
-
-const questionsC = drillC.map((line, i) => {
-  const pairs = line.split(' ');
-  const tops = pairs.map(p => p.replace(/[()]/g, '').split(',')[0]);
-  const bottoms = pairs.map(p => p.replace(/[()]/g, '').split(',')[1] || p.replace(/[()]/g, '').split(',')[0]); // Fallback just in case
+// 3. PERCEPTUAL SPEED
+const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const questionsC = [];
+for (let i = 0; i < 40; i++) {
+  let pairs = [];
+  let numMatches = 0;
+  for (let p = 0; p < 4; p++) {
+    const isMatch = Math.random() > 0.5;
+    const l1 = letters[Math.floor(Math.random() * letters.length)];
+    let l2;
+    if (isMatch) {
+      l2 = Math.random() > 0.5 ? l1.toLowerCase() : l1.toUpperCase();
+      numMatches++;
+    } else {
+      while (true) {
+        l2 = letters[Math.floor(Math.random() * letters.length)];
+        if (l1.toLowerCase() !== l2.toLowerCase()) break;
+      }
+    }
+    pairs.push([l1, l2]);
+  }
+  
+  const tops = pairs.map(p => p[0]);
+  const bottoms = pairs.map(p => p[1]);
 
   const topRow = tops.map(t => `<div class="text-4xl font-bold font-sans text-slate-800">${t}</div>`).join('');
   const bottomRow = bottoms.map(b => `<div class="text-4xl font-bold font-sans text-slate-800">${b}</div>`).join('');
@@ -197,63 +113,55 @@ const questionsC = drillC.map((line, i) => {
     </div>
   `;
 
-  return {
+  questionsC.push({
     id: 'apt2-perc-' + i,
     module: 'perceptual',
     prompt: `How many pairs are the same letter (ignore case)?\n${display}`,
     options: ['0', '1', '2', '3', '4'],
-    correctAnswer: ansC[i],
-    metadata: { promptStr: line }
-  };
-});
+    correctAnswer: String(numMatches),
+    metadata: { promptStr: pairs.map(p => `(${p[0]},${p[1]})`).join(' ') }
+  });
+}
 
-const drillD = `
-Hot, Cold, Run
-Below, Under, Letter
-Up, Down, Street
-Apple, Banana, Chair
-Dog, Cat, Table
-Red, Blue, Loud
-Happy, Sad, Quick
-Car, Bus, Apple
-Big, Small, Green
-Rose, Tulip, Hammer
-Walk, Run, Sing
-North, South, Yellow
-Hand, Foot, Book
-Loud, Quiet, Square
-Knife, Fork, Cloud
-`.trim().split('\n');
-
-const ansD = `
-Run
-Letter
-Street
-Chair
-Table
-Loud
-Quick
-Apple
-Green
-Hammer
-Sing
-Yellow
-Book
-Square
-Cloud
-`.trim().split('\n');
-
-const questionsD = drillD.map((line, i) => {
-  const words = line.split(', ');
-  return {
+// 4. WORD MEANING
+const categories = {
+  animals: ['Dog', 'Cat', 'Lion', 'Tiger', 'Bear', 'Wolf', 'Fox'],
+  furniture: ['Table', 'Chair', 'Desk', 'Bed', 'Sofa', 'Cabinet'],
+  colors: ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'White', 'Pink'],
+  fruits: ['Apple', 'Banana', 'Orange', 'Grape', 'Pear', 'Peach'],
+  tools: ['Hammer', 'Wrench', 'Screwdriver', 'Saw', 'Drill'],
+  vehicles: ['Car', 'Bus', 'Truck', 'Bike', 'Train', 'Boat']
+};
+const catKeys = Object.keys(categories);
+const questionsD = [];
+for (let i = 0; i < 40; i++) {
+  const c1 = catKeys[Math.floor(Math.random() * catKeys.length)];
+  let c2;
+  while(true) {
+    c2 = catKeys[Math.floor(Math.random() * catKeys.length)];
+    if(c1 !== c2) break;
+  }
+  
+  const w1 = categories[c1][Math.floor(Math.random() * categories[c1].length)];
+  let w2;
+  while(true) {
+    w2 = categories[c1][Math.floor(Math.random() * categories[c1].length)];
+    if(w1 !== w2) break;
+  }
+  
+  const w3 = categories[c2][Math.floor(Math.random() * categories[c2].length)];
+  
+  const words = [w1, w2, w3].sort(() => Math.random() - 0.5);
+  
+  questionsD.push({
     id: 'apt2-word-' + i,
     module: 'word',
     prompt: `Which word is the odd one out?\n<div class="text-xl font-medium mt-3">${words.join(' &nbsp;&nbsp;&nbsp; ')}</div>`,
-    options: words.sort(() => Math.random() - 0.5),
-    correctAnswer: ansD[i],
-    metadata: { promptStr: line }
-  };
-});
+    options: [...words],
+    correctAnswer: w3,
+    metadata: { promptStr: words.join(', ') }
+  });
+}
 
 function writeTest(testId, title, durationSeconds, questions) {
   const dir = path.join(__dirname, 'src/tests', testId);

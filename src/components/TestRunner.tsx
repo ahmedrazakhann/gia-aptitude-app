@@ -14,7 +14,10 @@ interface TestRunnerProps {
 
 export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds, onComplete, onCancel }) => {
   const testData = TESTS_DATA[testId];
-  const questions = testData?.questions || [];
+  const [questions] = useState(() => {
+    const qs = testData?.questions || [];
+    return [...qs].sort(() => Math.random() - 0.5);
+  });
   const metadata = testData?.metadata || { title: 'Unknown Test' };
 
   const [currentIndex, setCurrentIndex] = useState(0);

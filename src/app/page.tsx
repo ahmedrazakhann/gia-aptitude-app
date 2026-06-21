@@ -11,12 +11,12 @@ type AppState = 'dashboard' | 'running' | 'results';
 
 export default function Home() {
   const [appState, setAppState] = useState<AppState>('dashboard');
-  const [activeModule, setActiveModule] = useState<ModuleType | null>(null);
-  const [timerDuration, setTimerDuration] = useState<number>(120);
+  const [activeTestId, setActiveTestId] = useState<string | null>(null);
+  const [timerDuration, setTimerDuration] = useState<number>(1200);
   const [lastResult, setLastResult] = useState<TestResult | null>(null);
 
-  const handleStartTest = (module: ModuleType, durationSeconds: number) => {
-    setActiveModule(module);
+  const handleStartTest = (testId: string, durationSeconds: number) => {
+    setActiveTestId(testId);
     setTimerDuration(durationSeconds);
     setAppState('running');
   };
@@ -29,20 +29,20 @@ export default function Home() {
 
   const handleBackToDashboard = () => {
     setAppState('dashboard');
-    setActiveModule(null);
+    setActiveTestId(null);
     setLastResult(null);
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
-      <div className="container mx-auto px-4 py-8 md:py-12 flex justify-center min-h-screen">
+    <main className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+      <div className="flex justify-center min-h-screen">
         {appState === 'dashboard' && (
           <Dashboard onStartTest={handleStartTest} />
         )}
         
-        {appState === 'running' && activeModule && (
+        {appState === 'running' && activeTestId && (
           <TestRunner 
-            module={activeModule} 
+            testId={activeTestId} 
             durationSeconds={timerDuration}
             onComplete={handleTestComplete}
             onCancel={handleBackToDashboard}

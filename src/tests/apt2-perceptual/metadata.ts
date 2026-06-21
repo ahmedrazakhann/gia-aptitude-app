@@ -1,0 +1,1 @@
+export const metadata = { id: 'apt2-perceptual', title: 'Aptitude Test 2 - Perceptual Speed' };

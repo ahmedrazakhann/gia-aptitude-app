@@ -3,24 +3,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TestResult, Question } from '../lib/types';
 import { Button } from './ui/Button';
-import { questions as aptitudeTest1Questions } from '../tests/aptitude-test-1/questions';
-import { metadata as aptitudeTest1Metadata } from '../tests/aptitude-test-1/metadata';
+import { TESTS_DATA } from '../tests/index';
 
 interface TestRunnerProps {
-  testId: string; // e.g. 'aptitude-test-1'
+  testId: string; 
   durationSeconds: number; 
   onComplete: (result: TestResult) => void;
   onCancel: () => void;
 }
 
 export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds, onComplete, onCancel }) => {
-  // In a real app, you would load questions dynamically based on testId.
-  // For now, we only have aptitude-test-1.
-  const questions = aptitudeTest1Questions;
-  const metadata = aptitudeTest1Metadata;
+  const testData = TESTS_DATA[testId];
+  const questions = testData?.questions || [];
+  const metadata = testData?.metadata || { title: 'Unknown Test' };
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(durationSeconds);
+  const [questionTimeElapsed, setQuestionTimeElapsed] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<string, { answer: string; timeTaken: number }>>({});
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   
@@ -28,6 +27,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
 
   useEffect(() => {
     setQuestionStartTime(Date.now());
+    setQuestionTimeElapsed(0);
   }, [currentIndex]);
 
   useEffect(() => {
@@ -38,6 +38,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => prev - 1);
+      setQuestionTimeElapsed((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(timer);
@@ -126,25 +127,30 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  const isTimeLow = timeLeft <= 60; // Less than 1 min warning
+  const isTimeLow = timeLeft <= 60; 
+  const isQuestionOverTime = questionTimeElapsed > 4;
 
   const currentAnswer = userAnswers[currentQuestion.id]?.answer;
   const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="fixed inset-0 bg-white z-50 flex flex-col font-sans text-gray-900 overflow-y-auto">
+    <div className="fixed inset-0 bg-white z-50 flex flex-col font-sans text-slate-900 overflow-y-auto">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-10">
+      <header className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-10">
         <div>
-          <h1 className="text-xl font-bold text-blue-700">{metadata.title}</h1>
-          <div className="text-sm text-gray-500 font-medium">Question {currentIndex + 1} of {questions.length}</div>
+          <h1 className="text-xl font-bold text-slate-800">{metadata.title}</h1>
+          <div className="text-sm text-slate-500 font-medium">Question {currentIndex + 1} of {questions.length}</div>
         </div>
         
         <div className="flex items-center space-x-6">
-          <div className={`text-2xl font-mono font-bold px-4 py-2 rounded border ${isTimeLow ? 'bg-red-50 text-red-600 border-red-200 animate-pulse' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>
+          <div className={`text-2xl font-mono font-bold px-4 py-2 rounded border transition-colors ${
+            isQuestionOverTime || isTimeLow 
+              ? 'bg-red-50 text-red-600 border-red-200 animate-pulse' 
+              : 'bg-slate-50 text-slate-700 border-slate-200'
+          }`}>
             {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
           </div>
-          <Button variant="secondary" onClick={onCancel} className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 border-0">
+          <Button variant="secondary" onClick={onCancel} className="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 border-0">
             Leave (Unscored)
           </Button>
         </div>

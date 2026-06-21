@@ -1,0 +1,1 @@
+export const metadata = { id: 'apt2-word', title: 'Aptitude Test 2 - Word Meaning' };

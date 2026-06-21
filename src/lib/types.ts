@@ -12,6 +12,7 @@ export interface Question {
 export interface TestResult {
   id: string;
   timestamp: number;
+  testId?: string;
   module: ModuleType;
   totalQuestions: number;
   correctAnswers: number;

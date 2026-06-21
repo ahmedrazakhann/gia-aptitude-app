@@ -1,0 +1,1 @@
+export const metadata = { id: 'apt2-reasoning', title: 'Aptitude Test 2 - Reasoning' };

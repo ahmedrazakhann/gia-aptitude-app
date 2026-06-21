@@ -1,0 +1,1 @@
+export const metadata = { id: 'apt2-number', title: 'Aptitude Test 2 - Number Speed' };

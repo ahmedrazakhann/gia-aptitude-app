@@ -5,9 +5,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Hot &nbsp;&nbsp;&nbsp; Cold &nbsp;&nbsp;&nbsp; Run</div>",
     "options": [
+      "Run",
       "Cold",
-      "Hot",
-      "Run"
+      "Hot"
     ],
     "correctAnswer": "Run",
     "metadata": {
@@ -19,8 +19,8 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Below &nbsp;&nbsp;&nbsp; Under &nbsp;&nbsp;&nbsp; Letter</div>",
     "options": [
-      "Below",
       "Letter",
+      "Below",
       "Under"
     ],
     "correctAnswer": "Letter",
@@ -33,9 +33,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Up &nbsp;&nbsp;&nbsp; Down &nbsp;&nbsp;&nbsp; Street</div>",
     "options": [
-      "Street",
       "Up",
-      "Down"
+      "Down",
+      "Street"
     ],
     "correctAnswer": "Street",
     "metadata": {
@@ -47,9 +47,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Apple &nbsp;&nbsp;&nbsp; Banana &nbsp;&nbsp;&nbsp; Chair</div>",
     "options": [
-      "Chair",
+      "Apple",
       "Banana",
-      "Apple"
+      "Chair"
     ],
     "correctAnswer": "Chair",
     "metadata": {
@@ -61,9 +61,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Dog &nbsp;&nbsp;&nbsp; Cat &nbsp;&nbsp;&nbsp; Table</div>",
     "options": [
-      "Table",
+      "Dog",
       "Cat",
-      "Dog"
+      "Table"
     ],
     "correctAnswer": "Table",
     "metadata": {
@@ -89,9 +89,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Happy &nbsp;&nbsp;&nbsp; Sad &nbsp;&nbsp;&nbsp; Quick</div>",
     "options": [
-      "Quick",
+      "Happy",
       "Sad",
-      "Happy"
+      "Quick"
     ],
     "correctAnswer": "Quick",
     "metadata": {
@@ -104,8 +104,8 @@ export const questions: Question[] = [
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Car &nbsp;&nbsp;&nbsp; Bus &nbsp;&nbsp;&nbsp; Apple</div>",
     "options": [
       "Car",
-      "Apple",
-      "Bus"
+      "Bus",
+      "Apple"
     ],
     "correctAnswer": "Apple",
     "metadata": {
@@ -117,8 +117,8 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Big &nbsp;&nbsp;&nbsp; Small &nbsp;&nbsp;&nbsp; Green</div>",
     "options": [
-      "Green",
       "Small",
+      "Green",
       "Big"
     ],
     "correctAnswer": "Green",
@@ -131,9 +131,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Rose &nbsp;&nbsp;&nbsp; Tulip &nbsp;&nbsp;&nbsp; Hammer</div>",
     "options": [
+      "Hammer",
       "Tulip",
-      "Rose",
-      "Hammer"
+      "Rose"
     ],
     "correctAnswer": "Hammer",
     "metadata": {
@@ -159,9 +159,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">North &nbsp;&nbsp;&nbsp; South &nbsp;&nbsp;&nbsp; Yellow</div>",
     "options": [
-      "Yellow",
+      "North",
       "South",
-      "North"
+      "Yellow"
     ],
     "correctAnswer": "Yellow",
     "metadata": {
@@ -188,8 +188,8 @@ export const questions: Question[] = [
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Loud &nbsp;&nbsp;&nbsp; Quiet &nbsp;&nbsp;&nbsp; Square</div>",
     "options": [
       "Loud",
-      "Square",
-      "Quiet"
+      "Quiet",
+      "Square"
     ],
     "correctAnswer": "Square",
     "metadata": {
@@ -201,9 +201,9 @@ export const questions: Question[] = [
     "module": "word",
     "prompt": "Which word is the odd one out?\n<div class=\"text-xl font-medium mt-3\">Knife &nbsp;&nbsp;&nbsp; Fork &nbsp;&nbsp;&nbsp; Cloud</div>",
     "options": [
-      "Cloud",
       "Fork",
-      "Knife"
+      "Knife",
+      "Cloud"
     ],
     "correctAnswer": "Cloud",
     "metadata": {

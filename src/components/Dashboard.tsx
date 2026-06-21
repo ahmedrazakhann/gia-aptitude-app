@@ -85,7 +85,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
           <Button 
             variant="danger" 
             onClick={handleClearHistory} 
-            className="text-sm px-4 py-2 flex items-center rounded-none bg-white border border-red-200 text-red-600 hover:bg-red-50"
+            className="text-sm px-4 py-2 flex items-center rounded-none border border-red-200 text-white bg-red-50"
           >
             <AlertTriangle className="w-4 h-4 mr-2" />
             Clear History

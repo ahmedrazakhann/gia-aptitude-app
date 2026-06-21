@@ -5,8 +5,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Paul is taller than Roy. Who is shorter?",
     "options": [
-      "Roy",
-      "Paul"
+      "Paul",
+      "Roy"
     ],
     "correctAnswer": "Roy",
     "metadata": {
@@ -70,8 +70,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Amy is older than Beth. Who is younger?",
     "options": [
-      "Amy",
-      "Beth"
+      "Beth",
+      "Amy"
     ],
     "correctAnswer": "Beth",
     "metadata": {
@@ -83,8 +83,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Dan is shorter than Sam. Who is taller?",
     "options": [
-      "Sam",
-      "Dan"
+      "Dan",
+      "Sam"
     ],
     "correctAnswer": "Sam",
     "metadata": {
@@ -109,8 +109,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Ben is quicker than Joe. Who is slower?",
     "options": [
-      "Joe",
-      "Ben"
+      "Ben",
+      "Joe"
     ],
     "correctAnswer": "Joe",
     "metadata": {
@@ -122,8 +122,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Rita is not as tall as Mona. Who is taller?",
     "options": [
-      "Rita",
-      "Mona"
+      "Mona",
+      "Rita"
     ],
     "correctAnswer": "Mona",
     "metadata": {
@@ -148,8 +148,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Eve is weaker than Fay. Who is stronger?",
     "options": [
-      "Fay",
-      "Eve"
+      "Eve",
+      "Fay"
     ],
     "correctAnswer": "Fay",
     "metadata": {
@@ -174,8 +174,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Zoe is faster than Ria. Who is slower?",
     "options": [
-      "Zoe",
-      "Ria"
+      "Ria",
+      "Zoe"
     ],
     "correctAnswer": "Ria",
     "metadata": {
@@ -187,9 +187,9 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Sam is heavier than Tim but lighter than Max. Who is the heaviest?",
     "options": [
-      "Max",
+      "Sam",
       "Tim",
-      "Sam"
+      "Max"
     ],
     "correctAnswer": "Max",
     "metadata": {
@@ -215,9 +215,9 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Jon is not as quick as Kim, and Kim is not as quick as Leo. Who is the quickest?",
     "options": [
-      "Jon",
+      "Leo",
       "Kim",
-      "Leo"
+      "Jon"
     ],
     "correctAnswer": "Leo",
     "metadata": {
@@ -243,8 +243,8 @@ export const questions: Question[] = [
     "module": "reasoning",
     "prompt": "Pete is stronger than Quin but weaker than Rob. Who is the weakest?",
     "options": [
-      "Quin",
       "Pete",
+      "Quin",
       "Rob"
     ],
     "correctAnswer": "Quin",
@@ -258,8 +258,8 @@ export const questions: Question[] = [
     "prompt": "Tess is less tall than Uma. Uma is less tall than Vera. Who is the tallest?",
     "options": [
       "Tess",
-      "Uma",
-      "Vera"
+      "Vera",
+      "Uma"
     ],
     "correctAnswer": "Vera",
     "metadata": {

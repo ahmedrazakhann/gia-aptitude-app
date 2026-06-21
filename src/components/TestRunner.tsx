@@ -168,7 +168,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
               ) : currentQuestion.prompt}
             </div>
             
-            <div className={`grid gap-4 max-w-3xl mx-auto w-full mt-auto ${
+            <div className={`grid gap-4 max-w-3xl mx-auto w-full mt-8 ${
               currentQuestion.options.length === 5 ? 'grid-cols-5' : 
               currentQuestion.options.length === 3 ? 'grid-cols-3' : 
               currentQuestion.options.length === 4 ? 'grid-cols-2 sm:grid-cols-4' :

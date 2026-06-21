@@ -184,11 +184,23 @@ const ansC = `
 
 const questionsC = drillC.map((line, i) => {
   const pairs = line.split(' ');
-  const display = pairs.map(p => `<span class="inline-block mx-3 text-2xl font-mono">${p.replace(/[()]/g, '')}</span>`).join('');
+  const tops = pairs.map(p => p.replace(/[()]/g, '').split(',')[0]);
+  const bottoms = pairs.map(p => p.replace(/[()]/g, '').split(',')[1] || p.replace(/[()]/g, '').split(',')[0]); // Fallback just in case
+
+  const topRow = tops.map(t => `<div class="text-4xl font-bold font-sans text-slate-800">${t}</div>`).join('');
+  const bottomRow = bottoms.map(b => `<div class="text-4xl font-bold font-sans text-slate-800">${b}</div>`).join('');
+
+  const display = `
+    <div class="flex flex-col items-center space-y-8 mt-8 mb-4 px-8 py-6 bg-slate-50 border-2 border-slate-200 rounded">
+      <div class="flex space-x-16 w-full justify-center">${topRow}</div>
+      <div class="flex space-x-16 w-full justify-center">${bottomRow}</div>
+    </div>
+  `;
+
   return {
     id: 'apt2-perc-' + i,
     module: 'perceptual',
-    prompt: `How many pairs are the same letter (ignore case)?\n<div class="mt-4 flex justify-center tracking-widest">${display}</div>`,
+    prompt: `How many pairs are the same letter (ignore case)?\n${display}`,
     options: ['0', '1', '2', '3', '4'],
     correctAnswer: ansC[i],
     metadata: { promptStr: line }

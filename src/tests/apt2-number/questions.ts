@@ -6,8 +6,8 @@ export const questions: Question[] = [
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">1 &nbsp;&nbsp;&nbsp; 6 &nbsp;&nbsp;&nbsp; 10</div>",
     "options": [
       "1",
-      "6",
-      "10"
+      "10",
+      "6"
     ],
     "correctAnswer": "1",
     "metadata": {
@@ -19,9 +19,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">3 &nbsp;&nbsp;&nbsp; 7 &nbsp;&nbsp;&nbsp; 1</div>",
     "options": [
+      "1",
       "7",
-      "3",
-      "1"
+      "3"
     ],
     "correctAnswer": "7",
     "metadata": {
@@ -61,9 +61,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">8 &nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 5</div>",
     "options": [
+      "5",
       "1",
-      "8",
-      "5"
+      "8"
     ],
     "correctAnswer": "1",
     "metadata": {
@@ -75,8 +75,8 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">15 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 11</div>",
     "options": [
-      "8",
       "11",
+      "8",
       "15"
     ],
     "correctAnswer": "15",
@@ -104,8 +104,8 @@ export const questions: Question[] = [
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">14 &nbsp;&nbsp;&nbsp; 3 &nbsp;&nbsp;&nbsp; 8</div>",
     "options": [
       "14",
-      "8",
-      "3"
+      "3",
+      "8"
     ],
     "correctAnswer": "14",
     "metadata": {
@@ -118,8 +118,8 @@ export const questions: Question[] = [
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">5 &nbsp;&nbsp;&nbsp; 13 &nbsp;&nbsp;&nbsp; 11</div>",
     "options": [
       "5",
-      "13",
-      "11"
+      "11",
+      "13"
     ],
     "correctAnswer": "5",
     "metadata": {
@@ -159,8 +159,8 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">3 &nbsp;&nbsp;&nbsp; 10 &nbsp;&nbsp;&nbsp; 8</div>",
     "options": [
-      "8",
       "10",
+      "8",
       "3"
     ],
     "correctAnswer": "3",
@@ -188,8 +188,8 @@ export const questions: Question[] = [
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">7 &nbsp;&nbsp;&nbsp; 16 &nbsp;&nbsp;&nbsp; 13</div>",
     "options": [
       "13",
-      "7",
-      "16"
+      "16",
+      "7"
     ],
     "correctAnswer": "7",
     "metadata": {
@@ -201,8 +201,8 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">8 &nbsp;&nbsp;&nbsp; 19 &nbsp;&nbsp;&nbsp; 12</div>",
     "options": [
-      "12",
       "19",
+      "12",
       "8"
     ],
     "correctAnswer": "19",
@@ -216,8 +216,8 @@ export const questions: Question[] = [
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">4 &nbsp;&nbsp;&nbsp; 11 &nbsp;&nbsp;&nbsp; 9</div>",
     "options": [
       "4",
-      "9",
-      "11"
+      "11",
+      "9"
     ],
     "correctAnswer": "4",
     "metadata": {
@@ -229,9 +229,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">25 &nbsp;&nbsp;&nbsp; 10 &nbsp;&nbsp;&nbsp; 13</div>",
     "options": [
-      "10",
       "25",
-      "13"
+      "13",
+      "10"
     ],
     "correctAnswer": "25",
     "metadata": {
@@ -285,8 +285,8 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">5 &nbsp;&nbsp;&nbsp; 14 &nbsp;&nbsp;&nbsp; 12</div>",
     "options": [
-      "5",
       "14",
+      "5",
       "12"
     ],
     "correctAnswer": "5",
@@ -299,8 +299,8 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">7 &nbsp;&nbsp;&nbsp; 2 &nbsp;&nbsp;&nbsp; 16</div>",
     "options": [
-      "16",
       "2",
+      "16",
       "7"
     ],
     "correctAnswer": "16",
@@ -327,8 +327,8 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">6 &nbsp;&nbsp;&nbsp; 18 &nbsp;&nbsp;&nbsp; 11</div>",
     "options": [
-      "18",
       "6",
+      "18",
       "11"
     ],
     "correctAnswer": "18",
@@ -342,8 +342,8 @@ export const questions: Question[] = [
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">3 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 6</div>",
     "options": [
       "6",
-      "8",
-      "3"
+      "3",
+      "8"
     ],
     "correctAnswer": "3",
     "metadata": {
@@ -355,9 +355,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">23 &nbsp;&nbsp;&nbsp; 8 &nbsp;&nbsp;&nbsp; 12</div>",
     "options": [
-      "12",
       "8",
-      "23"
+      "23",
+      "12"
     ],
     "correctAnswer": "23",
     "metadata": {
@@ -369,9 +369,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">5 &nbsp;&nbsp;&nbsp; 20 &nbsp;&nbsp;&nbsp; 9</div>",
     "options": [
-      "5",
+      "9",
       "20",
-      "9"
+      "5"
     ],
     "correctAnswer": "20",
     "metadata": {
@@ -383,9 +383,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">10 &nbsp;&nbsp;&nbsp; 1 &nbsp;&nbsp;&nbsp; 4</div>",
     "options": [
-      "4",
       "1",
-      "10"
+      "10",
+      "4"
     ],
     "correctAnswer": "10",
     "metadata": {
@@ -397,9 +397,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">7 &nbsp;&nbsp;&nbsp; 13 &nbsp;&nbsp;&nbsp; 11</div>",
     "options": [
-      "11",
+      "7",
       "13",
-      "7"
+      "11"
     ],
     "correctAnswer": "7",
     "metadata": {
@@ -411,9 +411,9 @@ export const questions: Question[] = [
     "module": "number",
     "prompt": "Which number is furthest in value from the remaining (middle) number?\n<div class=\"text-2xl font-semibold mt-4\">4 &nbsp;&nbsp;&nbsp; 17 &nbsp;&nbsp;&nbsp; 8</div>",
     "options": [
-      "4",
+      "8",
       "17",
-      "8"
+      "4"
     ],
     "correctAnswer": "17",
     "metadata": {

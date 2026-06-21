@@ -93,6 +93,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
       correctAnswers: correct,
       accuracy: total > 0 ? (correct / total) * 100 : 0,
       averageResponseTime: total > 0 ? totalTime / total : 0,
+      totalTimeTaken: totalTime,
       wrongAnswers
     };
 

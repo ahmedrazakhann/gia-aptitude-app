@@ -100,11 +100,20 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
                 <th className="px-6 py-4">Score</th>
                 <th className="px-6 py-4">Accuracy</th>
                 <th className="px-6 py-4">Avg Time</th>
+                <th className="px-6 py-4">Total Time</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {[...results].reverse().map(r => {
                 const testName = TEST_GROUPS.flatMap(g => g.sections).find(s => s.id === r.testId)?.name || r.testId;
+                const totalSec = r.totalTimeTaken 
+                  ? r.totalTimeTaken / 1000 
+                  : (r.averageResponseTime * r.totalQuestions) / 1000;
+                  
+                const formattedTime = totalSec > 60 
+                  ? `${Math.floor(totalSec / 60)}m ${Math.round(totalSec % 60)}s`
+                  : `${totalSec.toFixed(1)}s`;
+
                 return (
                   <tr key={r.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-6 py-4 text-slate-500">{new Date(r.timestamp).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' })}</td>
@@ -112,6 +121,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onStartTest }) => {
                     <td className="px-6 py-4 font-semibold text-slate-800">{getScore(r)}</td>
                     <td className="px-6 py-4 text-slate-600">{r.accuracy.toFixed(1)}%</td>
                     <td className="px-6 py-4 text-slate-500">{(r.averageResponseTime / 1000).toFixed(1)}s</td>
+                    <td className="px-6 py-4 text-slate-500 font-medium">{formattedTime}</td>
                   </tr>
                 );
               })}

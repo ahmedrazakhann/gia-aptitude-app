@@ -17,7 +17,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ result, onClose })
           <h2 className="text-3xl font-semibold mb-2 text-slate-800">Assessment Complete</h2>
           <div className="text-slate-500 mb-10 text-sm uppercase tracking-widest font-medium">Score Summary</div>
           
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
             <div className="bg-slate-50 p-6 border border-slate-200 flex flex-col items-center">
               <Target className="w-6 h-6 text-slate-400 mb-3" />
               <div className="text-4xl font-light text-slate-800 mb-1">
@@ -48,6 +48,21 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({ result, onClose })
               <Clock className="w-6 h-6 text-slate-400 mb-3" />
               <div className="text-3xl font-light text-slate-800 mb-1">{(result.averageResponseTime / 1000).toFixed(1)}s</div>
               <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Avg Time/Q</div>
+            </div>
+
+            <div className="bg-slate-50 p-6 border border-slate-200 flex flex-col items-center">
+              <Clock className="w-6 h-6 text-slate-400 mb-3" />
+              <div className="text-3xl font-light text-slate-800 mb-1">
+                {(() => {
+                  const totalSec = result.totalTimeTaken 
+                    ? result.totalTimeTaken / 1000 
+                    : (result.averageResponseTime * result.totalQuestions) / 1000;
+                  return totalSec > 60 
+                    ? `${Math.floor(totalSec / 60)}m ${Math.round(totalSec % 60)}s`
+                    : `${totalSec.toFixed(1)}s`;
+                })()}
+              </div>
+              <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Time</div>
             </div>
           </div>
           

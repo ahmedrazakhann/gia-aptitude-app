@@ -18,6 +18,7 @@ export interface TestResult {
   correctAnswers: number;
   accuracy: number; // percentage 0-100
   averageResponseTime: number; // in milliseconds
+  totalTimeTaken?: number; // in milliseconds
   wrongAnswers: {
     question: Omit<Question, 'prompt'> & { promptStr?: string };
     userAnswer: string;

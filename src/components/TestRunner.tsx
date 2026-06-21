@@ -120,8 +120,8 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ module, durationSeconds,
       
       <Card className="mb-6">
         <CardBody className="p-8">
-          <div className="text-xl font-medium mb-12 text-center min-h-[120px] flex items-center justify-center whitespace-pre-wrap">
-            {typeof currentQuestion.prompt === 'string' && currentQuestion.prompt.includes('<svg') ? (
+          <div className="text-xl font-medium mb-12 text-center min-h-[120px] flex flex-col items-center justify-center whitespace-pre-wrap">
+            {typeof currentQuestion.prompt === 'string' && currentQuestion.prompt.includes('<') ? (
                <div dangerouslySetInnerHTML={{__html: currentQuestion.prompt}} />
             ) : currentQuestion.prompt}
           </div>

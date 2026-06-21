@@ -1,36 +1,34 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ModuleType, Question, TestResult } from '../lib/types';
-import { generateQuestion } from '../lib/generators';
+import { TestResult, Question } from '../lib/types';
 import { Button } from './ui/Button';
-import { Card, CardBody, CardHeader } from './ui/Card';
+import { questions as aptitudeTest1Questions } from '../tests/aptitude-test-1/questions';
+import { metadata as aptitudeTest1Metadata } from '../tests/aptitude-test-1/metadata';
 
 interface TestRunnerProps {
-  module: ModuleType;
-  durationSeconds: number; // e.g., 120
+  testId: string; // e.g. 'aptitude-test-1'
+  durationSeconds: number; 
   onComplete: (result: TestResult) => void;
   onCancel: () => void;
 }
 
-export const TestRunner: React.FC<TestRunnerProps> = ({ module, durationSeconds, onComplete, onCancel }) => {
-  const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds, onComplete, onCancel }) => {
+  // In a real app, you would load questions dynamically based on testId.
+  // For now, we only have aptitude-test-1.
+  const questions = aptitudeTest1Questions;
+  const metadata = aptitudeTest1Metadata;
+
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(durationSeconds);
-  const [startedAt, setStartedAt] = useState(Date.now());
+  const [userAnswers, setUserAnswers] = useState<Record<string, { answer: string; timeTaken: number }>>({});
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   
-  const [answers, setAnswers] = useState<{
-    question: Question;
-    userAnswer: string;
-    timeTaken: number;
-  }[]>([]);
+  const isFinishedRef = useRef(false);
 
   useEffect(() => {
-    // Generate first question
-    setCurrentQuestion(generateQuestion(module));
-    setStartedAt(Date.now());
     setQuestionStartTime(Date.now());
-  }, [module]);
+  }, [currentIndex]);
 
   useEffect(() => {
     if (timeLeft <= 0) {
@@ -45,42 +43,51 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ module, durationSeconds,
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  const answersRef = useRef(answers);
+  const userAnswersRef = useRef(userAnswers);
   useEffect(() => {
-    answersRef.current = answers;
-  }, [answers]);
-
-  const isFinishedRef = useRef(false);
+    userAnswersRef.current = userAnswers;
+  }, [userAnswers]);
 
   const finishTest = () => {
     if (isFinishedRef.current) return;
     isFinishedRef.current = true;
 
-    const finalAnswers = answersRef.current;
+    const finalAnswers = userAnswersRef.current;
     let correct = 0;
     const wrongAnswers: TestResult['wrongAnswers'] = [];
-    
     let totalTime = 0;
 
-    finalAnswers.forEach(ans => {
-      totalTime += ans.timeTaken;
-      if (ans.userAnswer === ans.question.correctAnswer) {
-        correct++;
+    questions.forEach(q => {
+      const ans = finalAnswers[q.id];
+      if (ans) {
+        totalTime += ans.timeTaken;
+        if (ans.answer === q.correctAnswer) {
+          correct++;
+        } else {
+          wrongAnswers.push({
+            question: q,
+            userAnswer: ans.answer,
+            correctAnswer: q.correctAnswer,
+            timeTaken: ans.timeTaken
+          });
+        }
       } else {
+        // Unanswered
         wrongAnswers.push({
-          question: ans.question,
-          userAnswer: ans.userAnswer,
-          correctAnswer: ans.question.correctAnswer,
-          timeTaken: ans.timeTaken
+          question: q,
+          userAnswer: '',
+          correctAnswer: q.correctAnswer,
+          timeTaken: 0
         });
       }
     });
 
-    const total = finalAnswers.length;
+    const total = questions.length;
     const result: TestResult = {
       id: Math.random().toString(36).substring(7),
       timestamp: Date.now(),
-      module,
+      module: 'mixed', // Legacy compat
+      testId,
       totalQuestions: total,
       correctAnswers: correct,
       accuracy: total > 0 ? (correct / total) * 100 : 0,
@@ -91,65 +98,127 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ module, durationSeconds,
     onComplete(result);
   };
 
-  const handleAnswer = (answer: string) => {
+  const handleSelectAnswer = (answer: string) => {
     const timeTaken = Date.now() - questionStartTime;
-    if (currentQuestion) {
-      setAnswers(prev => [...prev, {
-        question: currentQuestion,
-        userAnswer: answer,
-        timeTaken
-      }]);
-      
-      setCurrentQuestion(generateQuestion(module));
-      setQuestionStartTime(Date.now());
+    const currentQuestion = questions[currentIndex];
+    
+    // Accumulate time if they revisit, or just override. Let's just override for simplicity.
+    setUserAnswers(prev => ({
+      ...prev,
+      [currentQuestion.id]: { answer, timeTaken }
+    }));
+  };
+
+  const handleNext = () => {
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(prev => prev + 1);
     }
   };
 
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(prev => prev - 1);
+    }
+  };
+
+  const currentQuestion = questions[currentIndex];
   if (!currentQuestion) return <div className="text-center p-12">Loading...</div>;
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
+  const isTimeLow = timeLeft <= 60; // Less than 1 min warning
+
+  const currentAnswer = userAnswers[currentQuestion.id]?.answer;
+  const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="max-w-3xl mx-auto w-full">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold capitalize">{module} Test</h2>
-        <div className="text-xl font-mono bg-white dark:bg-gray-800 px-4 py-2 rounded-lg shadow border border-gray-100 dark:border-gray-700">
-          <span className={timeLeft <= 10 ? 'text-red-500 font-bold animate-pulse' : ''}>
-            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
-          </span>
+    <div className="fixed inset-0 bg-white z-50 flex flex-col font-sans text-gray-900 overflow-y-auto">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center shadow-sm sticky top-0 z-10">
+        <div>
+          <h1 className="text-xl font-bold text-blue-700">{metadata.title}</h1>
+          <div className="text-sm text-gray-500 font-medium">Question {currentIndex + 1} of {questions.length}</div>
         </div>
+        
+        <div className="flex items-center space-x-6">
+          <div className={`text-2xl font-mono font-bold px-4 py-2 rounded border ${isTimeLow ? 'bg-red-50 text-red-600 border-red-200 animate-pulse' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>
+            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+          </div>
+          <Button variant="secondary" onClick={onCancel} className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 border-0">
+            Leave (Unscored)
+          </Button>
+        </div>
+      </header>
+
+      {/* Progress Bar */}
+      <div className="w-full bg-gray-100 h-1.5">
+        <div 
+          className="bg-blue-600 h-1.5 transition-all duration-300 ease-in-out" 
+          style={{ width: `${progressPercentage}%` }}
+        />
       </div>
-      
-      <Card className="mb-6">
-        <CardBody className="p-8">
-          <div className="text-xl font-medium mb-12 text-center min-h-[120px] flex flex-col items-center justify-center whitespace-pre-wrap">
-            {typeof currentQuestion.prompt === 'string' && currentQuestion.prompt.includes('<') ? (
-               <div dangerouslySetInnerHTML={{__html: currentQuestion.prompt}} />
-            ) : currentQuestion.prompt}
+
+      {/* Main Content */}
+      <main className="flex-grow flex flex-col items-center py-10 px-4">
+        <div className="w-full max-w-4xl flex-grow flex flex-col">
+          
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-10 mb-8 flex-grow flex flex-col justify-center min-h-[400px]">
+            <div className="text-2xl font-medium mb-12 text-center whitespace-pre-wrap text-gray-800 leading-relaxed">
+              {typeof currentQuestion.prompt === 'string' && currentQuestion.prompt.includes('<') ? (
+                 <div dangerouslySetInnerHTML={{__html: currentQuestion.prompt}} />
+              ) : currentQuestion.prompt}
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
+              {currentQuestion.options.map((opt, i) => {
+                const isSelected = currentAnswer === opt;
+                return (
+                  <button 
+                    key={i} 
+                    onClick={() => handleSelectAnswer(opt)}
+                    className={`py-6 px-4 text-lg rounded-lg border-2 transition-all duration-200 outline-none
+                      ${isSelected 
+                        ? 'border-blue-600 bg-blue-50 text-blue-800 shadow-md font-semibold' 
+                        : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300 hover:bg-blue-50/50'
+                      }`}
+                  >
+                    {opt}
+                  </button>
+                );
+              })}
+            </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {currentQuestion.options.map((opt, i) => (
+          {/* Navigation Controls */}
+          <div className="flex justify-between items-center mt-auto pt-6 border-t border-gray-100">
+            <Button 
+              variant="secondary" 
+              onClick={handlePrevious} 
+              disabled={currentIndex === 0}
+              className={`px-8 py-3 text-lg ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              &larr; Previous
+            </Button>
+
+            {currentIndex < questions.length - 1 ? (
               <Button 
-                key={i} 
-                onClick={() => handleAnswer(opt)}
-                variant="secondary"
-                className="py-6 text-lg hover:-translate-y-1 transform transition"
+                onClick={handleNext} 
+                className="px-8 py-3 text-lg bg-blue-600 hover:bg-blue-700 text-white"
               >
-                {opt}
+                Next &rarr;
               </Button>
-            ))}
+            ) : (
+              <Button 
+                onClick={finishTest} 
+                className="px-8 py-3 text-lg bg-green-600 hover:bg-green-700 text-white font-bold"
+              >
+                Submit Assessment
+              </Button>
+            )}
           </div>
-        </CardBody>
-      </Card>
-      
-      <div className="flex justify-between items-center text-sm text-gray-500">
-        <div>Questions answered: {answers.length}</div>
-        <Button variant="danger" onClick={finishTest} className="px-4 py-1 text-sm">
-          End Early & Score
-        </Button>
-      </div>
+
+        </div>
+      </main>
     </div>
   );
 };

@@ -174,7 +174,7 @@ export const TestRunner: React.FC<TestRunnerProps> = ({ testId, durationSeconds,
                   <button 
                     key={i} 
                     onClick={() => handleSelectAnswer(opt)}
-                    className="py-6 px-4 text-lg rounded-none border-2 transition-all duration-200 outline-none border-slate-200 bg-white text-slate-700 hover:border-slate-800 hover:bg-slate-50 hover:text-slate-900 focus:border-slate-800 focus:bg-slate-50"
+                    className="py-6 px-4 text-lg rounded-none border-2 transition-all duration-200 outline-none border-slate-200 bg-white text-slate-700 hover:border-slate-800 hover:bg-slate-50 hover:text-slate-900 focus:border-slate-800 focus:bg-slate-50 cursor-pointer"
                   >
                     {opt}
                   </button>
